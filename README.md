@@ -85,3 +85,12 @@ Merupakan pattern yang digunakan khusus untuk aplikasi dengan variasi interface 
         django.contrib.auth.middleware.AuthenticationMiddleware
     # settings.py [INSTALLED_APPS]
         django.contrib.auth && django.contrib.contenttypes
+## References
+##### https://docs.djangoproject.com/en/4.2/topics/http/views/#mapping-urls-to-views
+##### https://learnbatta.com/blog/understanding-request-response-lifecycle-in-django-29/
+##### https://www.geeksforgeeks.org/difference-between-mvc-mvp-and-mvvm-architecture-pattern-in-android/
+##### https://www.geeksforgeeks.org/difference-between-mvc-and-mvt-design-patterns/
+##### https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment
+##### https://www.w3schools.com/django/django_create_virtual_environment.php
+##### https://pbp-fasilkom-ui.github.io/ganjil-2024/docs/tutorial-0
+##### https://pbp-fasilkom-ui.github.io/ganjil-2024/docs/tutorial-1
