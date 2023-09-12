@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiteraSync (Portal Pencarian Buku Online)</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #suggestions {
+            border: 1px solid #ccc;
+            width: 200px;
+            display: none;
+            position: absolute;
+        }
+
+        #suggestions div {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #suggestions div:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+<h2>LiteraSync (Portal Pencarian Buku Online)</h2>
+
+<!-- Kolom Pencarian -->
+<div>
+    <label for="search">Cari Buku:</label>
+    <input type="text" id="search" onkeyup="showSuggestions(this.value)">
+    <div id="suggestions"></div>
+</div>
+
+<!-- Tabel Daftar Buku -->
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama buku</th>
+            <th>Jumlah</th>
+            <th>Deskripsi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Jujutsu Kaisen ep. 235 Leaks</td>
+            <td>1</td>
+            <td>Anime</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>The Maze Runner: The Kill Order</td>
+            <td>4</td>
+            <td>Novel</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Automate the Boring Stuff with Python: Practical Programming for Total Beginners</td>
+            <td>3</td>
+            <td>Buku Pemrograman</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Thinking in Java by Brucke Eckel</td>
+            <td>2</td>
+            <td>Buku Pemrograman</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    // Contoh data buku (should be using database)
+    const books = [
+        "Jujutsu Kaisen ep. 235 Leaks",
+        "The Maze Runner: The Kill Order",
+        "Automate the Boring Stuff with Python: Practical Programming for Total Beginners",
+        "Thinking in Java by Brucke Eckel"
+    ];
+
+    function showSuggestions(str) {
+        const suggestions = document.getElementById("suggestions");
+        suggestions.innerHTML = "";
+        if (str.length === 0) {
+            suggestions.style.display = "none";
+            return;
+        }
+
+        // Menyaring buku berdasarkan input pengguna
+        const filteredBooks = books.filter(book => book.toLowerCase().includes(str.toLowerCase()));
+        for (const book of filteredBooks) {
+            const div = document.createElement("div");
+            div.innerHTML = book;
+            div.onclick = function() {
+                document.getElementById("search").value = book;
+                suggestions.style.display = "none";
+            };
+            suggestions.appendChild(div);
+        }
+
+        if (filteredBooks.length > 0) {
+            suggestions.style.display = "block";
+        } else {
+            suggestions.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
