@@ -1,5 +1,136 @@
+# Tugas 3 PBP
+## Perbedaan antara form POST dan form GET dalam Django
+Dalam penggunaan web form, ada dua method HTTP utama yang digunakan, yaitu method POST dan method GET. Keduanya memiliki fungsi yang sama, yaitu untuk mengirimkan informasi dari browser client ke server, namun ada beberapa perbedaan dari keduanya, yaitu:
+### POST
+Metode ini digunakan untuk mengirimkan data dengan dipack di dalam request body, bukan URL. Ini cocok untuk pengiriman data yang mengubah keadaan sistem, seperti pengubahan data di database. POST lebih aman dibandingkan GET, terutama saat mengirimkan informasi sensitif, karena data tidak ditampilkan di URL dan tidak mudah disimulasi oleh peretas. Dalam Django, formulir login dikembalikan menggunakan metode POST.
+### GET
+Metode ini menggabungkan data yang dikirimkan menjadi bagian dari URL. Sebagai contoh, jika kita melakukan pencarian di dokumentasi Django, akan menghasilkan URL seperti https://docs.djangoproject.com/search/?q=forms&release=1. Keuntungan dari GET adalah URL-nya dapat dibookmark, dibagikan, atau dikirim ulang dengan mudah. Namun, GET tidak sesuai untuk mengirimkan data pribadi seperti password (karena akan muncul di URL) atau data dalam jumlah besar.
+#### Dengan demikian, setiap permintaan yang digunakan untuk mengubah keadaan sistem harus menggunakan method POST. Jika penggunaan hanya untuk request yang tidak mempengaruhi sistem maka gunakan method GET.
+
+## Perbedaan Utama antara XML, JSON, dan HTML dalam Konteks Pengiriman Data
+### XML (eXtensible Markup Language) dan JSON (JavaScript Object Notation) 
+Merupakan metode alternatif untuk menyimpan dan transfer data. Keduanya berfungsi sebagai format data exchange tetapi memiliki karakteristik yang berbeda:
+- XML lebih fleksibel dan mendukung proses untuk validasi, namun cenderung verbose.
+- JSON lebih mudah dibaca dan kurang verbose, sehingga mudah ditulis oleh pengguna maupun mesin. JSON juga asli untuk JavaScript, menjadikan JSON menjadi pilihan populer untuk web app modern.
+
+### HTML (HyperText Markup Language)
+Merupakan markup language yang digunakan untuk merepresentasikan bagaimana data harus ditampilkan pada perangkat pengguna atau client. HTML bukan format pertukaran data, melainkan lebih fokus pada representasi visual dari data.
+
+## JSON dan Popularitasnya dalam Pertukaran Data Web App Modern
+Ada beberapa faktor yang menjadikan JSON mendominasi dalam pertukaran data web app modern, seperti:
+- Readability: JSON dirancang dengan estetika yang memprioritaskan readability. Format berbasis teksnya memastikan bahwa baik pengguna maupun mesin dapat memahami dan memproses informasi yang tertera. Ini tidak hanya memudahkan proses debugging bagi developer, tetapi juga mempermudah pemahaman dan modifikasi data, khususnya bagi mereka yang mungkin tidak memiliki latar belakang teknis yang mendalam.
+- Simpel dan Ringkas: Sebelumnya, format seperti XML menjadi pilihan utama pertukaran data. Namun lain halnya dengan XML, JSON hadir dengan struktur yang lebih sederhana dan tidak memerlukan banyak markup tambahan. Dengan demikian, JSON menjadi lebih efisien dalam hal ukuran file dan kecepatan pemrosesan (lightweight). Ini membuatnya menjadi pilihan yang ideal, terutama dalam aplikasi web modern yang memerlukan respons cepat dan pertukaran data yang efisien.
+- Integrasi dengan JavaScript: Integrasi yang erat dengan JavaScript merupakan salah satu daya tarik penggunaan JSON. JSON sendiri merupakan singkatan dari "JavaScript Object Notation. Ini berarti JSON tidak hanya merupakan bagian dari ekosistem JavaScript, tetapi juga diadopsi dengan sempurna di dalamnya. Ketika developer bekerja dengan aplikasi web yang memanfaatkan JavaScript, menggunakan JSON menjadi alami. Meskipun begitu, kehebatan JSON tidak terbatas pada JavaScript saja. Banyak bahasa pemrograman lainnya sekarang memiliki dukungan untuk JSON, yang memungkinkannya untuk berfungsi sebagai jembatan komunikasi antar berbagai sistem dan platform.
+## Implementasi checklist secara step-by-step:
+### 1. Membuat input form untuk menambahkan objek model pada app sebelumnya
+- Dimulai dengan mengaktivkan environment.
+- Membuat 'forms.py' pada direktori 'main' dan mendefinisikan 'ItemForm' berdasarkan model 'Item' dengan fields: "name", "amount", "description".
+- Membuat view baru yang dinamai 'create_item' yang akan menghandle request dari form untuk menambahkan item ke database inventaris library.
+- Menambahkan url untuk view baru pada 'urls.py' dalam direktori 'main'. Dengan code sebagai berikut:    
+
+        app_name = 'main'
+        urlpatterns = [
+            path('', display_items, name='display_items'),
+            path('create-item', create_item, name='create_item'),
+- Membuat template 'create_item.html' untuk menampilkan form input ke pengguna. Template:
+
+        {% extends 'base.html' %} 
+        
+        {% block content %}
+        <h1>Add New Book</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Add Book"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
+        {% endblock %}
+
+- Menambahkan link ke form dari halaman utama.
+
+### 2. Menambahkan 5 fungsi views.
+- HTML View: Berdasarkan dari tugas 2, kita sudah membuat fungsi 'display_items' yang menjadi representasi visual seluruh data dalam format HTML.
+- XML View: Membuat fungsi view 'show_xml' yang akan mengembalikan data item dalam format XML.
+- JSON View: Membuat fungsi view 'show_json' yang akan mengembalikan data item dalam format JSON.
+- XML by ID: Membuat fungsi view `show_xml_by_id' yang menerima parameter id dan mengembalikan data item tertentu dalam format XML.
+- JSON by ID: Buat fungsi view `show_json_by_id yang menerima parameter id dan mengembalikan data produk tertentu dalam format JSON.
+
+Dengan demikian, code nya adalah sebagai berikut:
+
+        def display_items(request):
+            items = Item.objects.all()
+            return render(request, 'main.html', {'items': items})
+
+        def show_xml(request):
+            data = Item.objects.all()
+            return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+        
+        def show_json(request):
+            data = Item.objects.all()
+            return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+        
+        def show_xml_by_id(request, id):
+            data = Item.objects.filter(pk=id)
+            return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+        
+        def show_json_by_id(request, id):
+            data = Item.objects.filter(pk=id)
+            return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+### 3. Membuat routing URL untuk masing-masing views
+- Menambahkan URL routing untuk masing-masing fungsi view yang sudah dibuat. Terdapat pula fungsi view yang menampilkan item berdasarkan ID dengan '<int:id>' sebagai parameter URL. Dengan demikian, code nya akan menjadi begini:
+
+        app_name = 'main'
+        
+        urlpatterns = [
+            path('', display_items, name='display_items'),
+            path('create-item', create_item, name='create_item'),
+            path('xml/', show_xml, name='show_xml'),
+            path('json/', show_json, name='show_json'),
+            path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+            ]
+### 4. [BONUS] Menambahkan fitur yang menghitung jumlah data item yang tersimpan pada aplikasi
+Setelah mengimplementasikan fitur input dan menampilkan data dalam berbagai format, kita juga dapat menambahkan fitur yang memungkinkan user mengetahui berapa jumlah item yang sudah ada pada database. Dalam konteks ini saya menambahkan 'total_items' untuk menghitung berapa jumlah jenis item yang sudah dimiliki oleh user. Dengan code:
+
+        def display_items(request):
+            items = Item.objects.all()
+            total_items = items.count()
+            return render(request, 'main.html', {'items': items, 'total_items': total_items})
+
+Kemudian memperbarui main.html untuk menampilkannya secara visual, dengan memasukkan code berikut:
+    
+    <h2>LiteraSync (Portal Pencarian Buku Online)</h2>
+    <p>Anda memiliki total {{ items.count }} jenis item yang tersimpan pada library.</p>
+
+    <!-- Kolom Pencarian -->
+
+## Screenshot hasil akses URL pada Postman 
+# Akses HTML
+![image](https://github.com/fikriwahab/LiteraSync/assets/124673453/43ab1362-2181-4e19-9d79-03c161c349ca)
+# Akses XML
+![image](https://github.com/fikriwahab/LiteraSync/assets/124673453/d46084b8-85ad-46b6-8363-9a1961b65827)
+# Akses JSON
+![image](https://github.com/fikriwahab/LiteraSync/assets/124673453/62c5a2c8-5e68-48f0-a09d-33f2d546bf55)
+# Akses XML per ID
+![image](https://github.com/fikriwahab/LiteraSync/assets/124673453/df3866fb-e823-4065-bd20-01af094e49f4)
+# Akses JSON per ID
+![image](https://github.com/fikriwahab/LiteraSync/assets/124673453/3d1e66d4-e63e-40e8-a928-12502ecec015)
+
+## References
+##### https://www.deltaxml.com/blog/xml/whats-the-relationship-between-xml-json-html-and-the-internet/#:~:text=Fundamentally%2C%20JSON%20and%20XML%20are,is%20more%20flexible%20and%20secure.
+##### https://aws.amazon.com/compare/the-difference-between-json-xml/#:~:text=As%20a%20markup%20language%2C%20XML,size%20for%20faster%20data%20transfer.
+##### https://www.geeksforgeeks.org/render-html-forms-get-post-in-django/
+##### https://docs.djangoproject.com/en/4.2/topics/forms/#:~:text=GET%20and%20POST&text=Django's%20login%20form%20is%20returned,this%20to%20compose%20a%20URL.
+
 # Tugas 2 PBP
-# Deskripsi LiteraSync
+## Deskripsi LiteraSync
 LiteraSync merupakan sebuah portal online yang menyediakan database untuk pencarian buku pada sebuah perpustakaan ataupun toko buku. Melalui aplikasi ini, baik customer dan seller dapat mencari buku dengan rincian stock, deskripsi, serta pengelolaan inventaris buku.
 
 ## Link Akses Adaptable.io:
