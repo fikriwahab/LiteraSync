@@ -43,6 +43,7 @@
     </style>
 
     <h2>LiteraSync (Portal Pencarian Buku Online)</h2>
+    <p>Anda memiliki total {{ items.count }} jenis item yang tersimpan pada library.</p>
 
     <!-- Kolom Pencarian -->
     <div>
@@ -114,4 +115,10 @@
             }
         }
     </script>
+<h5>Sesi terakhir login: {{ last_login }}</h5>    
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
 {% endblock content %}
