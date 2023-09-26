@@ -33,7 +33,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main")) 
+            response = HttpResponseRedirect(reverse("main:display_items")) 
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
@@ -51,9 +51,10 @@ def logout_user(request):
 def display_items(request):
     items = Item.objects.filter(user=request.user)
     total_items = items.count()
-    return render(request, 'main.html', {'name': request.user.username,'items': items, 'total_items': total_items, ,'last_login': request.COOKIES['last_login']})
+    return render(request, 'main.html', {'name': request.user.username,'items': items, 'total_items': total_items, 'last_login': request.COOKIES.get('last_login', 'Not available')})
+
     
-def create_product(request):
+def create_item(request):
     form = ItemForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
