@@ -33,8 +33,255 @@ Terlepas dari efisiensi dan kebermanfaatan dalam penggunaan cookies, masih ada b
 
 ## Implementasi Checklist
 ### 1. Mengimplementasikan fungsi registrasi, login, dan logout
+#### Register
+Membuat form bawaan dari Django yang dikhususkan untuk pendaftaran user, yaitu dengan UserCreationForm
 
+        from django.shortcuts import redirect
+        from django.contrib.auth.forms import UserCreationForm
+        from django.contrib import messages  
 
+        def register(request):
+            form = UserCreationForm()
+        
+            if request.method == "POST":
+                form = UserCreationForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Your account has been successfully created!')
+                    return redirect('main:login')
+            context = {'form':form}
+            return render(request, 'register.html', context)
+Kemudian buat file khusus register yang dinamai register.html, serta mengisinya dengan template berikut:
+
+        {% extends 'base.html' %}
+        
+        {% block meta %}
+            <title>Register</title>
+        {% endblock meta %}
+        
+        {% block content %}  
+        
+        <div class = "login">
+            
+            <h1>Register</h1>  
+        
+                <form method="POST" >  
+                    {% csrf_token %}  
+                    <table>  
+                        {{ form.as_table }}  
+                        <tr>  
+                            <td></td>
+                            <td><input type="submit" name="submit" value="Daftar"/></td>  
+                        </tr>  
+                    </table>  
+                </form>
+        
+            {% if messages %}  
+                <ul>   
+                    {% for message in messages %}  
+                        <li>{{ message }}</li>  
+                        {% endfor %}  
+                </ul>   
+            {% endif %}
+        
+        </div>  
+        
+        {% endblock content %}
+
+Setelah itu jangan lupa untuk menambah view register di urls.py
+
+    from main.views import register
+    path('register/', register, name='register'),
+
+#### Login
+Mempersiapkan form login dengan menggunakan form bawaan Django, yaitu:
+
+        from django.contrib.auth import authenticate, login
+Kemudian menambahkan fungsi login_user untuk menjalankan proses authentikasi bagi user yang ingin melakukan login:
+
+        def login_user(request):
+            if request.method == 'POST':
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    response = HttpResponseRedirect(reverse("main:display_items")) 
+                    response.set_cookie('last_login', str(datetime.datetime.now()))
+                    return response
+                else:
+                    messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            context = {}
+            return render(request, 'login.html', context)
+
+Kemudian membuat berkas html baru dengan nama login.html, dengan template berikut:
+
+        {% extends 'base.html' %}
+        
+        {% block meta %}
+            <title>Login</title>
+        {% endblock meta %}
+        
+        {% block content %}
+        
+        <div class = "login">
+        
+            <h1>Login</h1>
+        
+            <form method="POST" action="">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                    </tr>
+                            
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                    </tr>
+        
+                    <tr>
+                        <td></td>
+                        <td><input class="btn login_btn" type="submit" value="Login"></td>
+                    </tr>
+                </table>
+            </form>
+        
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}     
+                
+            Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+        
+        </div>
+        
+        {% endblock content %}
+
+Dan pada urls.py tambahkan path url dan impor fungsi login_user:
+
+        from main.views import login_user
+        path('login/', login_user, name='login'),
+
+#### Logout
+Pada file views.py tambahkan terlebih dahulu dan membuat fungsi logout_user
+
+        from django.contrib.auth import logout
+
+        def logout_user(request):
+            logout(request)
+            return redirect('main:login')
+
+Kemudian tambahkan template pada main.html dan diposisikan setelah bagian "Sesi terakhir login"
+
+        <a href="{% url 'main:logout' %}">
+            <button>
+                Logout
+            </button>
+        </a>
+
+Jangan lupa untuk menambahkan impor fungsi dan path url pada urls.py
+
+        from main.views import logout_user
+        path('logout/', logout_user, name='logout'),
+
+#### Restriksi Akses Halaman Main
+Setelah menambahkan fitur atau form Register hingga logout, kita pisahkan akses halaman main page agar hanya user yang sudah mendaftar yang mendapat akses main pada website tersebut. Pada file viws.py kita impor @login_required untuk mengharuskan pengguna login sebelum dapat mengakses web.
+
+        from django.contrib.auth.decorators import login_required
+        ...
+        @login_required(login_url='/login')
+        def display_items(request):
+        ...
+### 2. Membuat 2 akun dummy dengan 3 dummy data       
+### 3. Menghubungkan model Item dengan User
+Agar tampilan atau data terkait produk hanya mencakup produk yang dibuat oleh masing-masing user, maka kita harus menghubungkannya agar data yang diperoleh menjadi paralel. Jika mengacu pada pengerjaan sebelumnya, data Item masih mengacu pada data Item secara global, sehingga setiap user akan melihat inventaris Item yang sama. Oleh karenanya, kita buat hal tersebut menjadi bagian yang terpisah berdasarkan akun. 
+
+tambahkan Foreignkey dan import User
+
+        from django.contrib.auth.models import User
+        class Item(models.Model):
+            user = models.ForeignKey(User, on_delete=models.CASCADE)
+            ...
+Kemudian tambahkan pada views.py:
+
+        def create_item(request):
+            form = ItemForm(request.POST or None)
+        
+            if form.is_valid() and request.method == "POST":
+                item = form.save(commit=False)
+                item.user = request.user
+                item.save()
+                return HttpResponseRedirect(reverse('main:display_items'))
+        
+            context = {'form': form}
+            return render(request, "create_item.html", context)
+Setelah itu, lakukan sedikit perubahan kode pada bagian fungsi display_items
+
+        def display_items(request):
+            items = Item.objects.filter(user=request.user)
+            return render(request, 'main.html', {'name': request.user.username, ...
+            ...
+
+Dengan menambahkan beberapa bagian kode, kita dapat menampilkan objek Product yang berdasarkan masing-masing pengguna yang sudah login. Saat user sudah login, maka kode 'request.user.username' akan menampilkan username pengguna terkait pada bagian halaman main.
+
+Untuk menyimpan perubahan, kita lakukan migrasi model dengan:
+
+        python manage.py makemigrations
+Jika terdapat error saat migrasi model, maka pilihlah atau masukkan input '1' untuk memastikan default value untuk field user pada semua row yang sudah dibuat dalam basis data.
+
+Kemudian aplikasikan migrasi tersebut dengan:
+
+        python manage.py migrate
+        
+### 4. Penerapan Cookies dan informasi last login
+Tambahkan beberapa import di file views.py dan merubah susunan kode pada fungsi create_items
+
+        import datetime
+        from django.http import HttpResponseRedirect
+        from django.urls import reverse
+Pada fungsi login_user tambahkan cookie yang bernama last_login untuk menginformasikan kapan terakhir kali user melakukan login.
+
+        def login_user(request):
+            if request.method == 'POST':
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    response = HttpResponseRedirect(reverse("main:display_items")) 
+                    response.set_cookie('last_login', str(datetime.datetime.now()))
+                    return response
+                else:
+                    messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+
+Kemudian pada fungsi display_items kita tambahkan 'last_login': request.COOKIES['last_login'], sehingga kodenya akan menjadi:
+
+        @login_required(login_url='/login')
+        def display_items(request):
+            items = Item.objects.filter(user=request.user)
+            total_items = items.count()
+            return render(request, 'main.html', {'name': request.user.username,'items': items, 'total_items': total_items, 'last_login': request.COOKIES.get('last_login', 'Not available')})
+Dengan penambahan berikut memungkinkan user untuk melihat informasi last_login pada website. Setelah itu, dengan penambahan cookie ini kita juga memberi sedikit perubahan pada fungsi logout_user. Perubahan tersebut bertujuan untuk menghapus cookie last_login saat pengguna sudah melakukan logout.
+
+        def logout_user(request):
+            logout(request)
+            response = HttpResponseRedirect(reverse('main:login'))
+            response.delete_cookie('last_login')
+            return response
+
+Untuk menampilkan secara visual, jangan lupa untuk menambahkan pada main.html agar sesi terakhir login dapat dilihat pada website.
+
+        ...
+        <h5>Sesi terakhir login: {{ last_login }}</h5>
+        ...
+Untuk memastikan bahwa data cookie sudah ada, kita dapat melakukan cek pada fitur inspect element, dan kemudian membuka bagian Application/Storange. Pada bagian 'Cookies' kita akan melihat 3 data cookies, yaitu last_login, csrftoken, dan sessionid. Dengan demikian, berarti kita telah berhasil untuk mengintegrasikan form register, login, dan logout dengan implementasi yang sesuai di website kita.
+
+####
 # Tugas 3 PBP
 ## Perbedaan antara form POST dan form GET dalam Django
 Dalam penggunaan web form, ada dua method HTTP utama yang digunakan, yaitu method POST dan method GET. Keduanya memiliki fungsi yang sama, yaitu untuk mengirimkan informasi dari browser client ke server, namun ada beberapa perbedaan dari keduanya, yaitu:
