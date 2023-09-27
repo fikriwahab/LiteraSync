@@ -1,3 +1,40 @@
+# Tugas 4 PBP
+## Kelebihan dan Kekurangan Django UserCreationForm
+### Kelebihan
+- Efisiensi: Menggunakan UserCreationForm memungkinkan Developer untuk menghemat banyak waktu. Mereka tidak perlu merancang, mengimplementasikan, dan menguji formulir pendaftaran dari awal.
+- Security: Django dikenal dengan keamanannya yang strict. Dengan menggunakan form bawaan, kita mendapatkan keuntungan dari berbagai fitur keamanan yang sudah diintegrasikan, seperti validasi password dan pencegahan serangan umum.
+- Maintenance: Karena merupakan bagian dari framework Django, UserCreationForm mendapatkan pembaruan dan perbaikan keamanan dari komunitas Django.
+### Kekurangan
+- Kurangnya Fleksibilitas: Meskipun form ini sangat berguna untuk implementasi umum, mungkin ada skenario seperti saat kita memerlukan validasi khusus atau kolom tambahan. Dalam kasus seperti itu, kita mungkin perlu mengextend atau menggantinya dengan solusi kustom.
+- Estetika: Tampilan bawaannya mungkin tidak sesuai dengan desain UI/UX yang diinginkan developer, sehingga memerlukan adjusment lebih lanjut.
+## Perbedaan autentikasi dan otorisasi dalam Django
+- Autentikasi merujuk pada proses validasi identitas pengguna. Ini adalah langkah pertama dalam mengakses sistem: "siapakah Anda?" Biasanya, autentikasi melibatkan pemeriksaan username dan password.
+
+- Otorisasi merupakan proses yang dijalankan setelah autentikasi. Setelah sistem tahu siapa kita, otorisasi adalah tentang apa yang diizinkan untuk lakukan. Misalnya, seorang user mungkin memiliki akses untuk membaca konten tetapi tidak untuk mengeditnya.
+### Pentingnya Autentikasi dan Otorisasi
+- Mengamankan Aplikasi: Dengan kedua proses ini, kita dapat memastikan bahwa hanya pengguna yang sah yang mengakses aplikasi, dan mereka hanya dapat melakukan apa saja yang diizinkan.
+- Mencegah Akses Tidak Sah: Otorisasi khususnya mencegah pengguna dari mengakses konten atau melakukan tindakan yang mereka tidak seharusnya lakukan, menjaga integritas data dan fungsionalitas sistem.
+
+## Cookies pada Web App dan Pengelolaan data sesi pengguna dengan Cookies pada Django
+Cookies adalah proses yang memungkinkan server untuk menyimpan informasi pada browser pengguna dan kemudian mengambilnya kembali saat diperlukan. Di banyak kasus, cookies digunakan untuk menyimpan preferensi pengguna, melacak informasi sesi, atau bahkan autentikasi.
+
+Dalam konteks Django, framework ini menggunakan cookies, khususnya untuk mengelola sesi pengguna. Ketika pengguna masuk, Django menciptakan ID sesi unik, menyimpannya di cookie, dan mengasosiasikannya dengan data sesi pengguna di server.
+
+## Penggunaan Cookies secara Default dan Risiko Potensial
+Terlepas dari efisiensi dan kebermanfaatan dalam penggunaan cookies, masih ada beberapa aspek yang menjadi celah keamanan data, yaitu:
+### Risiko:
+
+- Intersepsi: Jika situs kita tidak menggunakan HTTPS, seorang peretas dapat meng-intercept traffic dan membaca atau memodifikasi cookies.
+- Man-in-the-middle Attacks: Tanpa HTTPS, peretas dapat mengubah data yang dikirimkan antara klien dan server, termasuk cookies.
+### Pencegahan:
+
+- Gunakan HTTPS: Selalu gunakan HTTPS untuk mengenkripsi traffic antara klien dan server, termasuk cookies.
+- Pasang Flag pada Cookies: Gunakan flags seperti Secure (untuk memastikan cookies hanya dikirim melalui HTTPS) dan HttpOnly (untuk mencegah akses cookies melalui JavaScript).
+
+## Implementasi Checklist
+### 1. Mengimplementasikan fungsi registrasi, login, dan logout
+
+
 # Tugas 3 PBP
 ## Perbedaan antara form POST dan form GET dalam Django
 Dalam penggunaan web form, ada dua method HTTP utama yang digunakan, yaitu method POST dan method GET. Keduanya memiliki fungsi yang sama, yaitu untuk mengirimkan informasi dari browser client ke server, namun ada beberapa perbedaan dari keduanya, yaitu:
