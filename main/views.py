@@ -14,6 +14,29 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+# BONUS TUGAS 4
+@login_required(login_url='/login')
+def increment_item(request, item_id):
+    item = Item.objects.get(id=item_id, user=request.user)
+    item.amount += 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:display_items'))
+
+@login_required(login_url='/login')
+def decrement_item(request, item_id):
+    item = Item.objects.get(id=item_id, user=request.user)
+    if item.amount > 0:
+        item.amount -= 1
+        item.save()
+    return HttpResponseRedirect(reverse('main:display_items'))
+# BONUS TUGAS 4
+
+@login_required(login_url='/login')
+def delete_item(request, item_id):
+    item = Item.objects.get(id=item_id, user=request.user)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:display_items'))
+
 def register(request):
     form = UserCreationForm()
 

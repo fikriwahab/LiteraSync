@@ -69,6 +69,11 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.amount }}</td>
                     <td>{{ item.description }}</td>
+                    <td>
+                        <a href="{% url 'main:increment_item' item.id %}">+</a>
+                        <a href="{% url 'main:decrement_item' item.id %}">-</a>
+                        <a href="{% url 'main:delete_item' item.id %}">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

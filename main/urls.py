@@ -3,6 +3,10 @@ from main.views import display_items, create_item, show_xml, show_json, show_xml
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
+from .views import increment_item
+from .views import decrement_item
+from .views import delete_item
+
 app_name = 'main'
 
 urlpatterns = [
@@ -15,4 +19,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
+    path('increment-item/<int:item_id>/', increment_item, name='increment_item'),
+    path('decrement-item/<int:item_id>/', decrement_item, name='decrement_item'),
+    path('delete-item/<int:item_id>/', delete_item, name='delete_item'),
 ]
