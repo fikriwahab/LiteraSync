@@ -1,129 +1,59 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiteraSync (Portal Pencarian Buku Online)</title>
+<title>LiteraSync (Portal Pencarian Buku Online)</title>
 {% endblock meta %}
 
 {% block content %}
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
 
-        table, th, td {
-            border: 1px solid black;
-        }
+<div class="container mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+    <h2 class="text-3xl font-bold mb-6">LiteraSync (Portal Pencarian Buku Online)</h2>
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
+    <!-- Django messages display -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.tags }} p-2 rounded-md mb-2 text-white bg-blue-500">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
-        th {
-            background-color: #f2f2f2;
-        }
-
-        #suggestions {
-            border: 1px solid #ccc;
-            width: 200px;
-            display: none;
-            position: absolute;
-        }
-
-        #suggestions div {
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        #suggestions div:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
-
-    <h2>LiteraSync (Portal Pencarian Buku Online)</h2>
-    <p>Anda memiliki total {{ items.count }} jenis item yang tersimpan pada library.</p>
+    <p class="mb-6">Anda memiliki total {{ items.count }} jenis item yang tersimpan pada library.</p>
 
     <!-- Kolom Pencarian -->
-    <div>
-        <label for="search">Cari Buku:</label>
-        <input type="text" id="search" onkeyup="showSuggestions(this.value)">
-        <div id="suggestions"></div>
+    <div class="mb-6">
+        <label for="search" class="block text-sm font-bold mb-2">Cari Buku:</label>
+        <input type="text" id="search" onkeyup="showSuggestions(this.value)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <div id="suggestions" class="mt-2"></div>
     </div>
 
-    <!-- Tabel Daftar Buku -->
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama buku</th>
-                <th>Jumlah</th>
-                <th>Deskripsi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.amount }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>
-                        <a href="{% url 'main:increment_item' item.id %}">+</a>
-                        <a href="{% url 'main:decrement_item' item.id %}">-</a>
-                        <a href="{% url 'main:delete_item' item.id %}">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Daftar Buku as Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for item in items %}
+        <div class="bg-white shadow-md rounded-md p-4 {% if forloop.last %}bg-green-200 text-green-800{% endif %}">
+            <h3 class="text-xl font-bold mb-2">{{ item.name }}</h3>
+            <p><strong>Jumlah:</strong> {{ item.amount }}</p>
+            <p class="mb-4"><strong>Deskripsi:</strong> {{ item.description }}</p>
+            <div>
+                <a href="{% url 'main:increment_item' item.id %}" class="text-blue-500 hover:text-blue-700 mr-2">Tambah</a>
+                <a href="{% url 'main:decrement_item' item.id %}" class="text-yellow-500 hover:text-yellow-700 mr-2">Kurangi</a>
+                <a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Hapus</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-    <br />
-    <a href="{% url 'main:create_item' %}">
-        <button>
+    <div class="mt-6 flex justify-between items-center">
+        <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Tambah Buku Baru
-        </button>
-    </a>
+        </a>
+        <div>
+            <p class="text-sm mb-2">Sesi terakhir login: {{ last_login }}</p>
+            <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Logout
+            </a>
+        </div>
+    </div>
+</div>
 
-    <script>
-        const books = [
-            "Jujutsu Kaisen ep. 235 Leaks",
-            "The Maze Runner: The Kill Order",
-            "Automate the Boring Stuff with Python: Practical Programming for Total Beginners",
-            "Thinking in Java by Brucke Eckel"
-        ];
-
-        function showSuggestions(str) {
-            const suggestions = document.getElementById("suggestions");
-            suggestions.innerHTML = "";
-            if (str.length === 0) {
-                suggestions.style.display = "none";
-                return;
-            }
-
-            const filteredBooks = books.filter(book => book.toLowerCase().includes(str.toLowerCase()));
-            for (const book of filteredBooks) {
-                const div = document.createElement("div");
-                div.innerHTML = book;
-                div.onclick = function() {
-                    document.getElementById("search").value = book;
-                    suggestions.style.display = "none";
-                };
-                suggestions.appendChild(div);
-            }
-
-            if (filteredBooks.length > 0) {
-                suggestions.style.display = "block";
-            } else {
-                suggestions.style.display = "none";
-            }
-        }
-    </script>
-<h5>Sesi terakhir login: {{ last_login }}</h5>    
-<a href="{% url 'main:logout' %}">
-    <button>
-        Logout
-    </button>
-</a>
 {% endblock content %}

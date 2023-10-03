@@ -13,29 +13,51 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+#Tugas 5 on bonus tugas 4
+from django.http import HttpResponseRedirect, Http404
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Item
 
-# BONUS TUGAS 4
 @login_required(login_url='/login')
 def increment_item(request, item_id):
-    item = Item.objects.get(id=item_id, user=request.user)
-    item.amount += 1
-    item.save()
+    try:
+        item = Item.objects.get(id=item_id, user=request.user)
+        item.amount += 1
+        item.save()
+        messages.success(request, 'Item incremented!')
+    except Item.DoesNotExist:
+        messages.error(request, 'Item does not exist!')
+        return Http404("Item does not exist.")
     return HttpResponseRedirect(reverse('main:display_items'))
 
 @login_required(login_url='/login')
 def decrement_item(request, item_id):
-    item = Item.objects.get(id=item_id, user=request.user)
-    if item.amount > 0:
-        item.amount -= 1
-        item.save()
+    try:
+        item = Item.objects.get(id=item_id, user=request.user)
+        if item.amount > 0:
+            item.amount -= 1
+            item.save()
+            messages.success(request, 'Item decremented!')
+        else:
+            messages.warning(request, 'Item amount is already 0.')
+    except Item.DoesNotExist:
+        messages.error(request, 'Item does not exist!')
+        return Http404("Item does not exist.")
     return HttpResponseRedirect(reverse('main:display_items'))
-# BONUS TUGAS 4
 
 @login_required(login_url='/login')
 def delete_item(request, item_id):
-    item = Item.objects.get(id=item_id, user=request.user)
-    item.delete()
+    try:
+        item = Item.objects.get(id=item_id, user=request.user)
+        item.delete()
+        messages.success(request, 'Item deleted!')
+    except Item.DoesNotExist:
+        messages.error(request, 'Item does not exist!')
+        return Http404("Item does not exist.")
     return HttpResponseRedirect(reverse('main:display_items'))
+
 
 def register(request):
     form = UserCreationForm()
@@ -79,7 +101,8 @@ def display_items(request):
     
 def create_item(request):
     form = ItemForm(request.POST or None)
-
+    print("Form is valid:", form.is_valid())
+    print("Request method:", request.method)
     if form.is_valid() and request.method == "POST":
         item = form.save(commit=False)
         item.user = request.user
