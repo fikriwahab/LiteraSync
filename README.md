@@ -1,3 +1,64 @@
+# Tugas 5 PBP
+## Manfaat Element Selector dan Kapan Waktu Penggunaanya
+### 1. Universal Selector (*)
+Universal Selector sering digunakan dalam 'CSS Reset', di mana tujuannya adalah untuk menghilangkan perbedaan tampilan standar antara berbagai browser. Selector bekerja dengan memilih seluruh elemen dalam sebuah page dan berguna untuk mengatur margin atau padding. Penggunaan Universal Selector dilakukaan saat kita hendak menerapkan styling yang sama pada seluruh elemen di halaman, seperti mengatur margin dan padding menjadi nol untuk menghapus default dari browser.
+### 2. Type Selector (E)
+Dalam memahami konsep dasar Styling, kita perlu memahami Type Selector. Type Selector bekerja dengan memilih seluruh elemen dari jenis tertentu dan memungkinkan kita untuk mengimplementasikan penerapan styling pada elemen dasar tanpa memerlukan pemilihan yang rumit. Digunakan pada kasus seperti ketika kita hendak mengatur styling untuk seluruh elemen dengan jenis yang sama, contohnya seluruh elemen '<h2>'.
+### 3. Descendant Selector (E F)
+Berguna untuk mengatur hierarki dan struktur desain web kita. Selain itu Descendant Selector memungkinkan styling yang lebih spesifik tanpa harus memberikan kelas atau id pada tiap elemen. Dengan ini, kita dapat memilih elemen F yang merupakan turunan dari E, sehingga kita dapat mengatur styling pada elemen tertentu yang berada di dalam elemen lain. Selain itu, contohnya dapat berupa 'li a'.
+### 4. Class Selector (.classname)
+Salah satu selector yang paling umum digunakan dalam CSS karena memungkinkan kita untuk mengelompokkan elemen berdasarkan fungsi atau gaya, bukan hanya jenis. Sehingga Class Selector dapat memilih semua elemen dengan kelas tertentu. Saat kita memiliki sekelompok elemen yang ingin kita beri styling yang sama, tapi tidak semuanya memiliki jenis yang sama, maka dapat menggunakan Class Selector. 
+### 5. ID Selector (#idname)
+Dengan ID Selector, kita dapat memilih elemen dengan ID tertentu. Cocok digunakan saat kita ingin memberi styling khusus pada satu elemen yang unik di page.
+### 6. Attribute Selector
+Berfungsi untuk memilih elemen berdasarkan atributnya. Cocok jika kita ingin melakukan styling berdasarkan atribut tertentu dari elemennya. Contoh '[type="text"]'.
+## HTML5 Tag
+HTML5 (Hyper Text Markup Language Versi 5) merupakan update dan teknologi penerus versi sebelumnya yang dikeluarkan oleh W3C (World Wide Wen Consortium) dan WHATWG (Web Hypertext Application Technology Working Group) yang mencakup tambahan feature-feature baru untuk memperbaiki dan melengkapi dari HTML versi sebelumnya.
+### Fitur baru HTML5
+- New Semantic Elements: Beberapa elemen semantik baru, seperti pada elemen <header>, <footer>, <section>, <article>, <section>, <aside>, <nav>, <figure>, <figcaption>, dan <time>.
+- Forms 2.0: Perbaikan form web HTML yang mana atribut baru telah diperkenalkan tag <input> dengan tipe baru seperti "color", "date", "email", dll. Selain itu juga tambahan seperti <output>, <progress>, <meter>, <datalist>.
+- Persistent Local Storage: Mengurangi kebutuhan untuk mengandalkan plugin dari pihak ketiga.
+- WebSocket: Teknologi komunikasi dua arah terkini untuk aplikasi web.
+- Server-Sent Events : Membawa fitur yang memfasilitasi aliran event dari server web ke peramban, dikenal sebagai SSE.
+- Canvas : Menawarkan permukaan gambar dua dimensi yang bisa diprogram menggunakan JavaScript. Mencakup <canvas> dan <svg>.
+- Audio & Video : Memungkinkan penanaman audio atau video di halaman web tanpa kebutuhan plugin eksternal. Seperti tag <audio>, <video>, <source>.
+- Geolocation : Para pengunjung memiliki opsi untuk membagikan lokasi geografis mereka ke aplikasi web Anda.
+- Microdata : Memberikan kemampuan untuk menciptakan kosakata kustom di luar HTML5 dan menambahkan semantik tambahan pada halaman web Anda.
+- Drag and drop : Memindahkan objek dengan metode tarik dan lepas di dalam satu halaman web.
+### Fitur yang dihapus pada HTML5
+- Acronym : Menjelaskan suatu akronim, fungsinya mirip dengan tag <abbr>.
+- Applet : Memungkinkan penyertaan file Java dalam dokumen HTML.
+- Basefont : Menetapkan atribut teks dasar, seperti warna, ukuran, dan jenis huruf untuk seluruh konten teks dokumen.
+- Big : Meningkatkan ukuran teks satu tingkat dari ukuran standarnya.
+- Center : Mengatur teks atau gambar agar berada di tengah.
+- Dir : Menampilkan daftar sebagai direktori.
+- Font : Menentukan jenis huruf, warna, dan ukuran teks.
+- Frame : Menentukan suatu frame dalam suatu rangkaian frame.
+- Frameset : Menyusun kelompok dari beberapa frame.
+- Noframes : Digunakan ketika peramban pengguna tidak mendukung frame.
+- Strike : Menambahkan garis melintang pada teks, memiliki fungsi serupa dengan tag <del>.
+- Tt : Menampilkan teks dengan gaya teletype.
+## Perbedaan Framework CSS Tailwind dan Bootstrap
+### Bootstrap:
+Bootstrap adalah framework CSS open-source gratis yang digunakan untuk membuat aplikasi web dan mobile yang responsif. Mencakup template HTML, CSS, dan JavaScript untuk berbagai komponen Web Development. Kelebihannya antara lain:
+- Menawarkan tema dan template siap pakai yang mempercepat development.
+- Mengusung ide mobile-first dengan sistem grid 12 kolom yang memastikan kompatibilitas cross-browser.
+- Menyediakan gaya dasar untuk elemen HTML seperti tombol, gambar, tabel, form, dll.
+- Bisa dikustomisasi sesuai kebutuhan proyek.
+- Sangat populer dan banyak digunakan oleh perusahaan seperti Twitter, LinkedIn, dan Spotify.
+Dengan demikian, Bootstrap cocok digunakan ketika kita hendak mengerjakan project dengan cepat dan memerlukan komponen atau template yang sudah siap dengan sedikit perubahan atau kustomisasi. Selain itu juga cocok digunakan saat project lebih berfokus pada pekerjaan backend dan memerlukan tata letak yang umum.
+### Tailwind CSS:
+Tailwind CSS adalah framework CSS utility-first yang memungkinkan developer untuk membuat user interface yang disesuaikan dengan cepat. Kelebihannya antara lain:
+- Menawarkan class utility unik yang memungkinkan desain kustom cepat.
+- Menyediakan fleksibilitas besar dalam desain, memungkinkan pembuatan UI yang unik.
+- Ukuran file yang lebih kecil karena pendekatan utilitas-first.
+- Populer dan banyak digunakan oleh perusahaan seperti MAKE IT dan Hashnode.
+Tailwind CSS hendaknya digunakan ketika kita ingin memiliki kontrol penuh atas desain kita tanpa mengandalkan template yang sudah pre-styled, sehingga approach pemrogramannya lebih modular dan custom. Dan untuk project yang lebih kompleks juga cocok dikerjakan dengan Tailwind CSS.
+### Kesimpulan
+Bootstrap dan Tailwind CSS keduanya memiliki kelebihan masing-masing. Pilihan antara keduanya bergantung pada kebutuhan spesifik project kita. Bootstrap lebih cocok untuk aplikasi yang memerlukan responsivitas dan kecepatan pengembangan dengan tema dan template siap pakai. Sementara Tailwind CSS lebih cocok jika kita ingin kebebasan dalam desain dan fokus pada approach utility-first.
+## Implementasi Checklist
+
+
 # Tugas 4 PBP
 ## Kelebihan dan Kekurangan Django UserCreationForm
 ### Kelebihan
