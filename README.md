@@ -20,13 +20,13 @@ HTML5 (Hyper Text Markup Language Versi 5) merupakan update dan teknologi peneru
 - Persistent Local Storage: Mengurangi kebutuhan untuk mengandalkan plugin dari pihak ketiga.
 - WebSocket: Teknologi komunikasi dua arah terkini untuk aplikasi web.
 - Server-Sent Events : Membawa fitur yang memfasilitasi aliran event dari server web ke peramban, dikenal sebagai SSE.
-- Canvas : Menawarkan permukaan gambar dua dimensi yang bisa diprogram menggunakan JavaScript. Mencakup <canvas> dan <svg>.
-- Audio & Video : Memungkinkan penanaman audio atau video di halaman web tanpa kebutuhan plugin eksternal. Seperti tag <audio>, <video>, <source>.
+- Canvas : Menawarkan permukaan gambar dua dimensi yang bisa diprogram menggunakan JavaScript. Mencakup canvas dan svg.
+- Audio & Video : Memungkinkan penanaman audio atau video di halaman web tanpa kebutuhan plugin eksternal. Seperti tag audio, video, source.
 - Geolocation : Para pengunjung memiliki opsi untuk membagikan lokasi geografis mereka ke aplikasi web Anda.
 - Microdata : Memberikan kemampuan untuk menciptakan kosakata kustom di luar HTML5 dan menambahkan semantik tambahan pada halaman web Anda.
 - Drag and drop : Memindahkan objek dengan metode tarik dan lepas di dalam satu halaman web.
 ### Fitur yang dihapus pada HTML5
-- Acronym : Menjelaskan suatu akronim, fungsinya mirip dengan tag <abbr>.
+- Acronym : Menjelaskan suatu akronim, fungsinya mirip dengan tag abbr.
 - Applet : Memungkinkan penyertaan file Java dalam dokumen HTML.
 - Basefont : Menetapkan atribut teks dasar, seperti warna, ukuran, dan jenis huruf untuk seluruh konten teks dokumen.
 - Big : Meningkatkan ukuran teks satu tingkat dari ukuran standarnya.
