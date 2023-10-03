@@ -1,3 +1,347 @@
+# Tugas 5 PBP
+## Manfaat Element Selector dan Kapan Waktu Penggunaanya
+### 1. Universal Selector (*)
+Universal Selector sering digunakan dalam 'CSS Reset', di mana tujuannya adalah untuk menghilangkan perbedaan tampilan standar antara berbagai browser. Selector bekerja dengan memilih seluruh elemen dalam sebuah page dan berguna untuk mengatur margin atau padding. Penggunaan Universal Selector dilakukaan saat kita hendak menerapkan styling yang sama pada seluruh elemen di halaman, seperti mengatur margin dan padding menjadi nol untuk menghapus default dari browser.
+### 2. Type Selector (E)
+Dalam memahami konsep dasar Styling, kita perlu memahami Type Selector. Type Selector bekerja dengan memilih seluruh elemen dari jenis tertentu dan memungkinkan kita untuk mengimplementasikan penerapan styling pada elemen dasar tanpa memerlukan pemilihan yang rumit. Digunakan pada kasus seperti ketika kita hendak mengatur styling untuk seluruh elemen dengan jenis yang sama, contohnya seluruh elemen "h2".
+### 3. Descendant Selector (E F)
+Berguna untuk mengatur hierarki dan struktur desain web kita. Selain itu Descendant Selector memungkinkan styling yang lebih spesifik tanpa harus memberikan kelas atau id pada tiap elemen. Dengan ini, kita dapat memilih elemen F yang merupakan turunan dari E, sehingga kita dapat mengatur styling pada elemen tertentu yang berada di dalam elemen lain. Selain itu, contohnya dapat berupa 'li a'.
+### 4. Class Selector (.classname)
+Salah satu selector yang paling umum digunakan dalam CSS karena memungkinkan kita untuk mengelompokkan elemen berdasarkan fungsi atau gaya, bukan hanya jenis. Sehingga Class Selector dapat memilih semua elemen dengan kelas tertentu. Saat kita memiliki sekelompok elemen yang ingin kita beri styling yang sama, tapi tidak semuanya memiliki jenis yang sama, maka dapat menggunakan Class Selector. 
+### 5. ID Selector (#idname)
+Dengan ID Selector, kita dapat memilih elemen dengan ID tertentu. Cocok digunakan saat kita ingin memberi styling khusus pada satu elemen yang unik di page.
+### 6. Attribute Selector
+Berfungsi untuk memilih elemen berdasarkan atributnya. Cocok jika kita ingin melakukan styling berdasarkan atribut tertentu dari elemennya. Contoh '[type="text"]'.
+## HTML5 Tag
+HTML5 (Hyper Text Markup Language Versi 5) merupakan update dan teknologi penerus versi sebelumnya yang dikeluarkan oleh W3C (World Wide Wen Consortium) dan WHATWG (Web Hypertext Application Technology Working Group) yang mencakup tambahan feature-feature baru untuk memperbaiki dan melengkapi dari HTML versi sebelumnya.
+### Fitur baru HTML5
+- New Semantic Elements: Beberapa elemen semantik baru, seperti pada elemen header, footer, section, article, section, aside, nav, figure, figcaption, dan time.
+- Forms 2.0: Perbaikan form web HTML yang mana atribut baru telah diperkenalkan tag "input" dengan tipe baru seperti "color", "date", "email", dll. Selain itu juga tambahan seperti output, progress, meter, datalist.
+- Persistent Local Storage: Mengurangi kebutuhan untuk mengandalkan plugin dari pihak ketiga.
+- WebSocket: Teknologi komunikasi dua arah terkini untuk aplikasi web.
+- Server-Sent Events : Membawa fitur yang memfasilitasi aliran event dari server web ke peramban, dikenal sebagai SSE.
+- Canvas : Menawarkan permukaan gambar dua dimensi yang bisa diprogram menggunakan JavaScript. Mencakup canvas dan svg.
+- Audio & Video : Memungkinkan penanaman audio atau video di halaman web tanpa kebutuhan plugin eksternal. Seperti tag audio, video, source.
+- Geolocation : Para pengunjung memiliki opsi untuk membagikan lokasi geografis mereka ke aplikasi web Anda.
+- Microdata : Memberikan kemampuan untuk menciptakan kosakata kustom di luar HTML5 dan menambahkan semantik tambahan pada halaman web Anda.
+- Drag and drop : Memindahkan objek dengan metode tarik dan lepas di dalam satu halaman web.
+### Fitur yang dihapus pada HTML5
+- Acronym : Menjelaskan suatu akronim, fungsinya mirip dengan tag abbr.
+- Applet : Memungkinkan penyertaan file Java dalam dokumen HTML.
+- Basefont : Menetapkan atribut teks dasar, seperti warna, ukuran, dan jenis huruf untuk seluruh konten teks dokumen.
+- Big : Meningkatkan ukuran teks satu tingkat dari ukuran standarnya.
+- Center : Mengatur teks atau gambar agar berada di tengah.
+- Dir : Menampilkan daftar sebagai direktori.
+- Font : Menentukan jenis huruf, warna, dan ukuran teks.
+- Frame : Menentukan suatu frame dalam suatu rangkaian frame.
+- Frameset : Menyusun kelompok dari beberapa frame.
+- Noframes : Digunakan ketika peramban pengguna tidak mendukung frame.
+- Strike : Menambahkan garis melintang pada teks, memiliki fungsi serupa dengan tag <del>.
+- Tt : Menampilkan teks dengan gaya teletype.
+## Perbedaan Framework CSS Tailwind dan Bootstrap
+### Bootstrap:
+Bootstrap adalah framework CSS open-source gratis yang digunakan untuk membuat aplikasi web dan mobile yang responsif. Mencakup template HTML, CSS, dan JavaScript untuk berbagai komponen Web Development. Kelebihannya antara lain:
+- Menawarkan tema dan template siap pakai yang mempercepat development.
+- Mengusung ide mobile-first dengan sistem grid 12 kolom yang memastikan kompatibilitas cross-browser.
+- Menyediakan gaya dasar untuk elemen HTML seperti tombol, gambar, tabel, form, dll.
+- Bisa dikustomisasi sesuai kebutuhan proyek.
+- Sangat populer dan banyak digunakan oleh perusahaan seperti Twitter, LinkedIn, dan Spotify.
+Dengan demikian, Bootstrap cocok digunakan ketika kita hendak mengerjakan project dengan cepat dan memerlukan komponen atau template yang sudah siap dengan sedikit perubahan atau kustomisasi. Selain itu juga cocok digunakan saat project lebih berfokus pada pekerjaan backend dan memerlukan tata letak yang umum.
+### Tailwind CSS:
+Tailwind CSS adalah framework CSS utility-first yang memungkinkan developer untuk membuat user interface yang disesuaikan dengan cepat. Kelebihannya antara lain:
+- Menawarkan class utility unik yang memungkinkan desain kustom cepat.
+- Menyediakan fleksibilitas besar dalam desain, memungkinkan pembuatan UI yang unik.
+- Ukuran file yang lebih kecil karena pendekatan utilitas-first.
+- Populer dan banyak digunakan oleh perusahaan seperti MAKE IT dan Hashnode.
+Tailwind CSS hendaknya digunakan ketika kita ingin memiliki kontrol penuh atas desain kita tanpa mengandalkan template yang sudah pre-styled, sehingga approach pemrogramannya lebih modular dan custom. Dan untuk project yang lebih kompleks juga cocok dikerjakan dengan Tailwind CSS.
+### Kesimpulan
+Bootstrap dan Tailwind CSS keduanya memiliki kelebihan masing-masing. Pilihan antara keduanya bergantung pada kebutuhan spesifik project kita. Bootstrap lebih cocok untuk aplikasi yang memerlukan responsivitas dan kecepatan pengembangan dengan tema dan template siap pakai. Sementara Tailwind CSS lebih cocok jika kita ingin kebebasan dalam desain dan fokus pada approach utility-first.
+## Implementasi Checklist
+
+# Tugas 4 PBP
+## Kelebihan dan Kekurangan Django UserCreationForm
+### Kelebihan
+- Efisiensi: Menggunakan UserCreationForm memungkinkan Developer untuk menghemat banyak waktu. Mereka tidak perlu merancang, mengimplementasikan, dan menguji formulir pendaftaran dari awal.
+- Security: Django dikenal dengan keamanannya yang strict. Dengan menggunakan form bawaan, kita mendapatkan keuntungan dari berbagai fitur keamanan yang sudah diintegrasikan, seperti validasi password dan pencegahan serangan umum.
+- Maintenance: Karena merupakan bagian dari framework Django, UserCreationForm mendapatkan pembaruan dan perbaikan keamanan dari komunitas Django.
+### Kekurangan
+- Kurangnya Fleksibilitas: Meskipun form ini sangat berguna untuk implementasi umum, mungkin ada skenario seperti saat kita memerlukan validasi khusus atau kolom tambahan. Dalam kasus seperti itu, kita mungkin perlu mengextend atau menggantinya dengan solusi kustom.
+- Estetika: Tampilan bawaannya mungkin tidak sesuai dengan desain UI/UX yang diinginkan developer, sehingga memerlukan adjusment lebih lanjut.
+## Perbedaan autentikasi dan otorisasi dalam Django
+- Autentikasi merujuk pada proses validasi identitas pengguna. Ini adalah langkah pertama dalam mengakses sistem: "siapakah Anda?" Biasanya, autentikasi melibatkan pemeriksaan username dan password.
+
+- Otorisasi merupakan proses yang dijalankan setelah autentikasi. Setelah sistem tahu siapa kita, otorisasi adalah tentang apa yang diizinkan untuk lakukan. Misalnya, seorang user mungkin memiliki akses untuk membaca konten tetapi tidak untuk mengeditnya.
+### Pentingnya Autentikasi dan Otorisasi
+- Mengamankan Aplikasi: Dengan kedua proses ini, kita dapat memastikan bahwa hanya pengguna yang sah yang mengakses aplikasi, dan mereka hanya dapat melakukan apa saja yang diizinkan.
+- Mencegah Akses Tidak Sah: Otorisasi khususnya mencegah pengguna dari mengakses konten atau melakukan tindakan yang mereka tidak seharusnya lakukan, menjaga integritas data dan fungsionalitas sistem.
+
+## Cookies pada Web App dan Pengelolaan data sesi pengguna dengan Cookies pada Django
+Cookies adalah proses yang memungkinkan server untuk menyimpan informasi pada browser pengguna dan kemudian mengambilnya kembali saat diperlukan. Di banyak kasus, cookies digunakan untuk menyimpan preferensi pengguna, melacak informasi sesi, atau bahkan autentikasi.
+
+Dalam konteks Django, framework ini menggunakan cookies, khususnya untuk mengelola sesi pengguna. Ketika pengguna masuk, Django menciptakan ID sesi unik, menyimpannya di cookie, dan mengasosiasikannya dengan data sesi pengguna di server.
+
+## Penggunaan Cookies secara Default dan Risiko Potensial
+Terlepas dari efisiensi dan kebermanfaatan dalam penggunaan cookies, masih ada beberapa aspek yang menjadi celah keamanan data, yaitu:
+### Risiko:
+
+- Intersepsi: Jika situs kita tidak menggunakan HTTPS, seorang peretas dapat meng-intercept traffic dan membaca atau memodifikasi cookies.
+- Man-in-the-middle Attacks: Tanpa HTTPS, peretas dapat mengubah data yang dikirimkan antara klien dan server, termasuk cookies.
+### Pencegahan:
+
+- Gunakan HTTPS: Selalu gunakan HTTPS untuk mengenkripsi traffic antara klien dan server, termasuk cookies.
+- Pasang Flag pada Cookies: Gunakan flags seperti Secure (untuk memastikan cookies hanya dikirim melalui HTTPS) dan HttpOnly (untuk mencegah akses cookies melalui JavaScript).
+
+## Implementasi Checklist
+### 1. Mengimplementasikan fungsi registrasi, login, dan logout
+#### Register
+Membuat form bawaan dari Django yang dikhususkan untuk pendaftaran user, yaitu dengan UserCreationForm
+
+        from django.shortcuts import redirect
+        from django.contrib.auth.forms import UserCreationForm
+        from django.contrib import messages  
+
+        def register(request):
+            form = UserCreationForm()
+        
+            if request.method == "POST":
+                form = UserCreationForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Your account has been successfully created!')
+                    return redirect('main:login')
+            context = {'form':form}
+            return render(request, 'register.html', context)
+Kemudian buat file khusus register yang dinamai register.html, serta mengisinya dengan template berikut:
+
+        {% extends 'base.html' %}
+        
+        {% block meta %}
+            <title>Register</title>
+        {% endblock meta %}
+        
+        {% block content %}  
+        
+        <div class = "login">
+            
+            <h1>Register</h1>  
+        
+                <form method="POST" >  
+                    {% csrf_token %}  
+                    <table>  
+                        {{ form.as_table }}  
+                        <tr>  
+                            <td></td>
+                            <td><input type="submit" name="submit" value="Daftar"/></td>  
+                        </tr>  
+                    </table>  
+                </form>
+        
+            {% if messages %}  
+                <ul>   
+                    {% for message in messages %}  
+                        <li>{{ message }}</li>  
+                        {% endfor %}  
+                </ul>   
+            {% endif %}
+        
+        </div>  
+        
+        {% endblock content %}
+
+Setelah itu jangan lupa untuk menambah view register di urls.py
+
+    from main.views import register
+    path('register/', register, name='register'),
+
+#### Login
+Mempersiapkan form login dengan menggunakan form bawaan Django, yaitu:
+
+        from django.contrib.auth import authenticate, login
+Kemudian menambahkan fungsi login_user untuk menjalankan proses authentikasi bagi user yang ingin melakukan login:
+
+        def login_user(request):
+            if request.method == 'POST':
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    response = HttpResponseRedirect(reverse("main:display_items")) 
+                    response.set_cookie('last_login', str(datetime.datetime.now()))
+                    return response
+                else:
+                    messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            context = {}
+            return render(request, 'login.html', context)
+
+Kemudian membuat berkas html baru dengan nama login.html, dengan template berikut:
+
+        {% extends 'base.html' %}
+        
+        {% block meta %}
+            <title>Login</title>
+        {% endblock meta %}
+        
+        {% block content %}
+        
+        <div class = "login">
+        
+            <h1>Login</h1>
+        
+            <form method="POST" action="">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                    </tr>
+                            
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                    </tr>
+        
+                    <tr>
+                        <td></td>
+                        <td><input class="btn login_btn" type="submit" value="Login"></td>
+                    </tr>
+                </table>
+            </form>
+        
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}     
+                
+            Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+        
+        </div>
+        
+        {% endblock content %}
+
+Dan pada urls.py tambahkan path url dan impor fungsi login_user:
+
+        from main.views import login_user
+        path('login/', login_user, name='login'),
+
+#### Logout
+Pada file views.py tambahkan terlebih dahulu dan membuat fungsi logout_user
+
+        from django.contrib.auth import logout
+
+        def logout_user(request):
+            logout(request)
+            return redirect('main:login')
+
+Kemudian tambahkan template pada main.html dan diposisikan setelah bagian "Sesi terakhir login"
+
+        <a href="{% url 'main:logout' %}">
+            <button>
+                Logout
+            </button>
+        </a>
+
+Jangan lupa untuk menambahkan impor fungsi dan path url pada urls.py
+
+        from main.views import logout_user
+        path('logout/', logout_user, name='logout'),
+
+#### Restriksi Akses Halaman Main
+Setelah menambahkan fitur atau form Register hingga logout, kita pisahkan akses halaman main page agar hanya user yang sudah mendaftar yang mendapat akses main pada website tersebut. Pada file viws.py kita impor @login_required untuk mengharuskan pengguna login sebelum dapat mengakses web.
+
+        from django.contrib.auth.decorators import login_required
+        ...
+        @login_required(login_url='/login')
+        def display_items(request):
+        ...
+### 2. Membuat 2 akun dummy dengan 3 dummy data       
+### 3. Menghubungkan model Item dengan User
+Agar tampilan atau data terkait produk hanya mencakup produk yang dibuat oleh masing-masing user, maka kita harus menghubungkannya agar data yang diperoleh menjadi paralel. Jika mengacu pada pengerjaan sebelumnya, data Item masih mengacu pada data Item secara global, sehingga setiap user akan melihat inventaris Item yang sama. Oleh karenanya, kita buat hal tersebut menjadi bagian yang terpisah berdasarkan akun. 
+
+tambahkan Foreignkey dan import User
+
+        from django.contrib.auth.models import User
+        class Item(models.Model):
+            user = models.ForeignKey(User, on_delete=models.CASCADE)
+            ...
+Kemudian tambahkan pada views.py:
+
+        def create_item(request):
+            form = ItemForm(request.POST or None)
+        
+            if form.is_valid() and request.method == "POST":
+                item = form.save(commit=False)
+                item.user = request.user
+                item.save()
+                return HttpResponseRedirect(reverse('main:display_items'))
+        
+            context = {'form': form}
+            return render(request, "create_item.html", context)
+Setelah itu, lakukan sedikit perubahan kode pada bagian fungsi display_items
+
+        def display_items(request):
+            items = Item.objects.filter(user=request.user)
+            return render(request, 'main.html', {'name': request.user.username, ...
+            ...
+
+Dengan menambahkan beberapa bagian kode, kita dapat menampilkan objek Product yang berdasarkan masing-masing pengguna yang sudah login. Saat user sudah login, maka kode 'request.user.username' akan menampilkan username pengguna terkait pada bagian halaman main.
+
+Untuk menyimpan perubahan, kita lakukan migrasi model dengan:
+
+        python manage.py makemigrations
+Jika terdapat error saat migrasi model, maka pilihlah atau masukkan input '1' untuk memastikan default value untuk field user pada semua row yang sudah dibuat dalam basis data.
+
+Kemudian aplikasikan migrasi tersebut dengan:
+
+        python manage.py migrate
+        
+### 4. Penerapan Cookies dan informasi last login
+Tambahkan beberapa import di file views.py dan merubah susunan kode pada fungsi create_items
+
+        import datetime
+        from django.http import HttpResponseRedirect
+        from django.urls import reverse
+Pada fungsi login_user tambahkan cookie yang bernama last_login untuk menginformasikan kapan terakhir kali user melakukan login.
+
+        def login_user(request):
+            if request.method == 'POST':
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    response = HttpResponseRedirect(reverse("main:display_items")) 
+                    response.set_cookie('last_login', str(datetime.datetime.now()))
+                    return response
+                else:
+                    messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+
+Kemudian pada fungsi display_items kita tambahkan 'last_login': request.COOKIES['last_login'], sehingga kodenya akan menjadi:
+
+        @login_required(login_url='/login')
+        def display_items(request):
+            items = Item.objects.filter(user=request.user)
+            total_items = items.count()
+            return render(request, 'main.html', {'name': request.user.username,'items': items, 'total_items': total_items, 'last_login': request.COOKIES.get('last_login', 'Not available')})
+Dengan penambahan berikut memungkinkan user untuk melihat informasi last_login pada website. Setelah itu, dengan penambahan cookie ini kita juga memberi sedikit perubahan pada fungsi logout_user. Perubahan tersebut bertujuan untuk menghapus cookie last_login saat pengguna sudah melakukan logout.
+
+        def logout_user(request):
+            logout(request)
+            response = HttpResponseRedirect(reverse('main:login'))
+            response.delete_cookie('last_login')
+            return response
+
+Untuk menampilkan secara visual, jangan lupa untuk menambahkan pada main.html agar sesi terakhir login dapat dilihat pada website.
+
+        ...
+        <h5>Sesi terakhir login: {{ last_login }}</h5>
+        ...
+Untuk memastikan bahwa data cookie sudah ada, kita dapat melakukan cek pada fitur inspect element, dan kemudian membuka bagian Application/Storange. Pada bagian 'Cookies' kita akan melihat 3 data cookies, yaitu last_login, csrftoken, dan sessionid. Dengan demikian, berarti kita telah berhasil untuk mengintegrasikan form register, login, dan logout dengan implementasi yang sesuai di website kita.
+
+####
 # Tugas 3 PBP
 ## Perbedaan antara form POST dan form GET dalam Django
 Dalam penggunaan web form, ada dua method HTTP utama yang digunakan, yaitu method POST dan method GET. Keduanya memiliki fungsi yang sama, yaitu untuk mengirimkan informasi dari browser client ke server, namun ada beberapa perbedaan dari keduanya, yaitu:
