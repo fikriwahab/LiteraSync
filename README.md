@@ -3,7 +3,7 @@
 ### 1. Universal Selector (*)
 Universal Selector sering digunakan dalam 'CSS Reset', di mana tujuannya adalah untuk menghilangkan perbedaan tampilan standar antara berbagai browser. Selector bekerja dengan memilih seluruh elemen dalam sebuah page dan berguna untuk mengatur margin atau padding. Penggunaan Universal Selector dilakukaan saat kita hendak menerapkan styling yang sama pada seluruh elemen di halaman, seperti mengatur margin dan padding menjadi nol untuk menghapus default dari browser.
 ### 2. Type Selector (E)
-Dalam memahami konsep dasar Styling, kita perlu memahami Type Selector. Type Selector bekerja dengan memilih seluruh elemen dari jenis tertentu dan memungkinkan kita untuk mengimplementasikan penerapan styling pada elemen dasar tanpa memerlukan pemilihan yang rumit. Digunakan pada kasus seperti ketika kita hendak mengatur styling untuk seluruh elemen dengan jenis yang sama, contohnya seluruh elemen "<h2>".
+Dalam memahami konsep dasar Styling, kita perlu memahami Type Selector. Type Selector bekerja dengan memilih seluruh elemen dari jenis tertentu dan memungkinkan kita untuk mengimplementasikan penerapan styling pada elemen dasar tanpa memerlukan pemilihan yang rumit. Digunakan pada kasus seperti ketika kita hendak mengatur styling untuk seluruh elemen dengan jenis yang sama, contohnya seluruh elemen "h2".
 ### 3. Descendant Selector (E F)
 Berguna untuk mengatur hierarki dan struktur desain web kita. Selain itu Descendant Selector memungkinkan styling yang lebih spesifik tanpa harus memberikan kelas atau id pada tiap elemen. Dengan ini, kita dapat memilih elemen F yang merupakan turunan dari E, sehingga kita dapat mengatur styling pada elemen tertentu yang berada di dalam elemen lain. Selain itu, contohnya dapat berupa 'li a'.
 ### 4. Class Selector (.classname)
@@ -15,8 +15,8 @@ Berfungsi untuk memilih elemen berdasarkan atributnya. Cocok jika kita ingin mel
 ## HTML5 Tag
 HTML5 (Hyper Text Markup Language Versi 5) merupakan update dan teknologi penerus versi sebelumnya yang dikeluarkan oleh W3C (World Wide Wen Consortium) dan WHATWG (Web Hypertext Application Technology Working Group) yang mencakup tambahan feature-feature baru untuk memperbaiki dan melengkapi dari HTML versi sebelumnya.
 ### Fitur baru HTML5
-- New Semantic Elements: Beberapa elemen semantik baru, seperti pada elemen <header>, <footer>, <section>, <article>, <section>, <aside>, <nav>, <figure>, <figcaption>, dan <time>.
-- Forms 2.0: Perbaikan form web HTML yang mana atribut baru telah diperkenalkan tag <input> dengan tipe baru seperti "color", "date", "email", dll. Selain itu juga tambahan seperti <output>, <progress>, <meter>, <datalist>.
+- New Semantic Elements: Beberapa elemen semantik baru, seperti pada elemen header, footer, section, article, section, aside, nav, figure, figcaption, dan time.
+- Forms 2.0: Perbaikan form web HTML yang mana atribut baru telah diperkenalkan tag "input" dengan tipe baru seperti "color", "date", "email", dll. Selain itu juga tambahan seperti output, progress, meter, datalist.
 - Persistent Local Storage: Mengurangi kebutuhan untuk mengandalkan plugin dari pihak ketiga.
 - WebSocket: Teknologi komunikasi dua arah terkini untuk aplikasi web.
 - Server-Sent Events : Membawa fitur yang memfasilitasi aliran event dari server web ke peramban, dikenal sebagai SSE.
@@ -57,7 +57,6 @@ Tailwind CSS hendaknya digunakan ketika kita ingin memiliki kontrol penuh atas d
 ### Kesimpulan
 Bootstrap dan Tailwind CSS keduanya memiliki kelebihan masing-masing. Pilihan antara keduanya bergantung pada kebutuhan spesifik project kita. Bootstrap lebih cocok untuk aplikasi yang memerlukan responsivitas dan kecepatan pengembangan dengan tema dan template siap pakai. Sementara Tailwind CSS lebih cocok jika kita ingin kebebasan dalam desain dan fokus pada approach utility-first.
 ## Implementasi Checklist
-
 
 # Tugas 4 PBP
 ## Kelebihan dan Kekurangan Django UserCreationForm
