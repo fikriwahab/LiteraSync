@@ -48,6 +48,270 @@ jQuery merupakan approach AJAX yang cukup lama/tua untuk AJAX. Pada jQuery juga 
 Baik Fetch API dan jQuery memiliki kelebihan dan kekurangannya masing-masing. Jika mempertimbangkan kompabilitas dan integrasi dengan Bootstrap, jQuery mungkin menjadi pilihan yang tepat. Namun, untuk proyek yang harus menyesuaikan dengan modernitas Web Development, Fetch API lebih cocok karena fiturnya yang lebih canggih dan tidak memerlukan konfigurasi external dependencies. Oleh karena itu, ketika berbicara Web Development yang menetapkan standar modern, Fetch API memberikan manfaat yang lebih banyak bagi developer dengan fleksibilitas dan kontrol yang lebih accessible, dan lebih simpel dalam hal konfigurasinya.
 
 ## Implementasi checklist secara step-by-step
+### AJAX GET
+#### 1. Mengubah kode cards data item agar dapat mendukung AJAX GET
+- Menambahkan fungsi baru untuk mengirimkan data dalam format JSON pada file views.py dan menambahkan path baru pada urls.py
+
+        # views.py
+        from django.http import JsonResponse
+        
+        @login_required(login_url='/login')
+        def get_items_json(request):
+            items = Item.objects.filter(user=request.user).values('id', 'name', 'description', 'amount')
+            return JsonResponse(list(items), safe=False)
+
+        # urls.py
+        path('get-items/', get_items_json, name='get_items_json'),
+
+- Menambahkan code JavaScript untuk memanggil AJAX
+
+        # main.html
+        ...
+        <script>
+        function fetchItems() {
+            fetch("{% url 'main:get_items_json' %}")
+            .then(response => response.json())
+            .then(data => {
+                let itemsContainer = document.querySelector(".grid");
+                itemsContainer.innerHTML = ""; // Clear the container
+                data.forEach(item => {
+                    let itemDiv = document.createElement("div");
+                    itemDiv.className = "bg-white shadow-md rounded-md p-4";
+                    itemDiv.innerHTML = `
+                        <h3 class="text-xl font-bold mb-2">${item.name}</h3>
+                        <p><strong>Jumlah:</strong> ${item.amount}</p>
+                        <p class="mb-4"><strong>Deskripsi:</strong> ${item.description}</p>
+                        <div>
+                            <a href="{% url 'main:increment_item' item.id %}" class="text-blue-500 hover:text-blue-700 mr-2">Tambah</a>
+                            <a href="{% url 'main:decrement_item' item.id %}" class="text-yellow-500 hover:text-yellow-700 mr-2">Kurangi</a>
+                            <a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Hapus</a>
+                        </div>
+                    `;
+                    itemsContainer.appendChild(itemDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching items:', error);
+            });
+        }
+        
+        // Call fetchItems on page load
+        window.onload = fetchItems;
+        </script>
+#### 2. Mengubah kode cards data item agar dapat mendukung AJAX GET
+- Melakukan sedikit perubahan agar memastikan endpoint mengambil semua Item dan mengembalikannya dalam format JSON. Agar lebih spesifik ke user yang sedang login, maka fungsi get_items_json(request) dimodifikasi menjadi:
+
+        # views.py
+        @login_required(login_url='/login')
+        def get_items_json(request):
+            items = Item.objects.filter(user=request.user)
+            return HttpResponse(serializers.serialize("json", items), content_type="application/json")
+        # urls.py
+        path('get-items-json/', get_items_json, name='get_items_json'),
+### AJAX GET
+#### 1. Membuat tombol yang membuka sebuah modal dengan form untuk menambahkan item
+- Menambahkan code untuk modal di main.html
+
+        <!-- Modal untuk menambahkan item -->
+        <div id="addItemModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+                
+                <!-- Modal box -->
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Tambahkan Item Baru
+                        </h3>
+                        <!-- Form di sini -->
+                        <form id="addItemForm">
+                            <div>
+                                <label>Nama Item:</label>
+                                <input type="text" id="itemName" required>
+                            </div>
+                            <div>
+                                <label>Jumlah:</label>
+                                <input type="number" id="itemAmount" required>
+                            </div>
+                            <div>
+                                <label>Deskripsi:</label>
+                                <textarea id="itemDescription" required></textarea>
+                            </div>
+                            <button type="submit">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+- Menambahkan tombol yang men-trigger modal
+
+        <button onclick="openModal()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Tambah Item (Modal)
+        </button>
+- Menambahkan JavaScript untuk menampilkan dan menyembunyikan modal
+
+        function openModal() {
+            document.getElementById('addItemModal').classList.remove('hidden');
+        }
+        
+        function closeModal() {
+            document.getElementById('addItemModal').classList.add('hidden');
+        }
+        
+        // Handle the form submission
+        document.getElementById('addItemForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Ambil data dari form
+            const itemName = document.getElementById('itemName').value;
+            const itemAmount = document.getElementById('itemAmount').value;
+            const itemDescription = document.getElementById('itemDescription').value;
+        
+            // TODO: Kirim data ini menggunakan AJAX POST ke server
+        
+            // Setelah selesai, tutup modal
+            closeModal();
+        });
+#### 2. Membuat fungsi view baru untuk menambahkan item baru ke dalam basis data
+- Menambahkan fungsi view pada views.py yang akan menerima data yang dikirim melalui AJAX POST dari form modal yang telah dibuat sebelumnya.
+
+        from django.views.decorators.csrf import csrf_exempt
+        from django.utils import timezone
+        
+                # views.py
+                @csrf_exempt
+                @login_required(login_url='/login')
+                def add_item(request):
+                    if request.method == 'POST':
+                        # Menerima data dari POST request
+                        item_name = request.POST.get('name')
+                        item_amount = request.POST.get('amount')
+                        item_description = request.POST.get('description')
+                
+                        # Membuat objek baru dan menyimpannya
+                        new_item = Item(name=item_name, amount=item_amount, description=item_description, created_at=timezone.now(), user=request.user)
+                        new_item.save()
+                
+                        return JsonResponse({'message': 'Item successfully added!'}, status=201)
+                    else:
+                        return JsonResponse({'error': 'Invalid method'}, status=400)
+                # urls.py
+                path('add-item/', add_item, name='add_item'),
+Melalui dekorator @csrf_exempt POST request di-approve tanpa CSRF token. Kemudian memeriksa apakah request adalah metode POST dan mengambil data dari request POST. Objek baru dengan model Item dibuat dan disimpan ke dalam database. Sebagai respons, pesan JSON dikembalikan untuk menginformasikan bahwa item berhasil ditambahkan.
+#### 3. Membuat path /create-ajax/ yang mengarah ke fungsi view yang sudah dibuat
+- Menambahkan kode berikut pada urls.py
+
+        path('create-ajax/', add_item, name='create_ajax_item'),
+Dengan demikian, kita memiliki path /create-ajax/ yang mengarah ke fungsi add_item. Sehingga, setiap saat AJAX POST request dikirim ke /create-ajax/, fungsi add_item akan dipanggil dan item baru akan ditambahkan ke database.
+#### 4. Menghubungkan form yang telah dibuat di dalam modal menuju path /create-ajax/
+- Mengubah cara pengambilan data dari form agar sesuai dengan pengiriman data ke server melalui AJAX
+- Menggunakan AJAX untuk mengirim data ke /create-ajax/ saat form disubmit
+- Menambahkan kode untuk mendapatkan CSRF token (jika dibutuhkan)
+Berikut beberapa perubahan dan tambahan pada kode:
+
+        <form id="addItemForm" action="/create-ajax/" method="post">
+        ...
+        function getCookie(name) {
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        } //Penambahan function getCookie untuk mendapatkan nilai CSRF token jika dibutuhkan
+        ...
+        document.getElementById('addItemForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Ambil data dari form
+            const itemName = document.getElementById('itemName').value;
+            const itemAmount = document.getElementById('itemAmount').value;
+            const itemDescription = document.getElementById('itemDescription').value;
+        
+            // Kirim data ini menggunakan AJAX POST ke server
+            fetch('/create-ajax/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    name: itemName,
+                    amount: itemAmount,
+                    description: itemDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Item berhasil ditambahkan!');
+                    closeModal();
+                    fetchItems();
+                } else {
+                    alert('Terjadi kesalahan saat menambahkan item. Silakan coba lagi.');
+                }
+            });
+        
+            // Setelah selesai, tutup modal
+            closeModal();
+        });
+#### 5. Refresh pada halaman utama secara asinkronus untuk menampilkan daftar item terbaru tanpa reload halaman utama secara keseluruhan
+#### 6. Melakukan perintah collectstatic
+- Memastikan konfigurasi STATIC_ROOT pada file settings.py
+
+        # settings.py
+        ...
+        # Static files (CSS, JavaScript, Images)
+        # https://docs.djangoproject.com/en/4.2/howto/static-files/
+        
+        STATIC_URL = 'static/'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+- Menjalankan perintah collectstatic pada command prompt
+
+        python manage.py collectstatic
+
+#### Checklist Bonus (Menambahkan fungsionalitas hapus dengan menggunakan AJAX DELETE)
+- Menambahkan pada urls.py dan views.py untuk membuat view yang dapat menghandle AJAX DELETE
+
+        # urls.py
+        path('delete-item-ajax/<int:item_id>/', delete_item_ajax, name='delete_item_ajax'),
+
+        # views.py
+        from django.http import JsonResponse
+        
+        def delete_item_ajax(request, item_id):
+            if request.method == "DELETE":
+                try:
+                    item = Item.objects.get(id=item_id)
+                    item.delete()
+                    return JsonResponse({'status': 'success'}, status=200)
+                except Item.DoesNotExist:
+                    return JsonResponse({'status': 'failed', 'message': 'Item not found'}, status=404)
+            return JsonResponse({'status': 'failed', 'message': 'Invalid request method'}, status=400)
+- Mengupdate JavaScript untuk handle delete dengan AJAX
+
+        function deleteItem(itemId) {
+            fetch(`/delete-item-ajax/${itemId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Item berhasil dihapus!');
+                    fetchItems();  // Update tampilan item
+                } else {
+                    alert('Gagal menghapus item: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting item:', error);
+            });
+        }
+        
+- Menghubungkan fungsi Delete ke tombol hapus
+
+        <a href="javascript:void(0);" onclick="deleteItem({{ item.id }})" class="text-red-500 hover:text-red-700">Hapus</a>
 
 # Tugas 5 PBP
 ## Manfaat Element Selector dan Kapan Waktu Penggunaanya
