@@ -1,3 +1,54 @@
+# Tugas 6 PBP
+## Perbedaan antara Asynchronous Programming dengan Synchronous Programming
+Referensi: https://www.mendix.com/blog/asynchronous-vs-synchronous-programming/#:~:text=The%20differences%20between%20asynchronous%20and,multiple%20requests%20to%20a%20server.
+### 1. Dasar Operasional
+- Asynchronous programming memungkinkan tugas-tugas untuk berjalan secara independen tanpa harus menunggu penyelesaian tugas lain. Ini adalah pendekatan non-blocking, yang berarti eksekusi satu tugas tidak bergantung pada yang lain. Dengan demikian, tugas dapat berjalan secara simultan.
+- Synchronous programming memerlukan setiap operasi untuk menyelesaikan sebelum operasi selanjutnya dapat dimulai. Ini adalah pendekatan blocking, di mana eksekusi setiap operasi bergantung pada penyelesaian operasi sebelumnya. Setiap tugas memerlukan respons sebelum berlanjut ke iterasi berikutnya.
+### 2. Thread & Interaksi Server
+- Asynchronous programming bersifat multi-thread, yang memungkinkan berbagai operasi atau program berjalan secara paralel. Kemudian dengan sifat non-blocking, memungkinkan proses pengirimkan beberapa Request ke server secara bersamaan.
+- Synchronous programming bersifat single-thread, yang berarti hanya satu operasi atau program yang akan berjalan pada satu waktu. Synchronous programming bersifat blocking, sehingga hanya akan mengirim satu request ke server pada satu waktu dan menunggu request tersebut direspons oleh server.
+### 3. Pengembangan
+- Asynchronous programming meningkatkan pengalaman pengguna dengan memuat layar aplikasi lebih cepat.
+- Synchronous programming lebih mudah untuk dikodekan oleh pengembang. Ini didukung dengan baik di semua bahasa pemrograman dan sebagai metode pemrograman default, pengembang tidak perlu menghabiskan waktu untuk belajar sesuatu yang baru.
+### 4. Dalam Konteks AJAX
+- Dengan AJAX, panggilan asynchronous ke server dapat dilakukan. Artinya, ketika browser mengirim request ke server melalui AJAX, pengguna masih dapat berinteraksi dengan halaman web dan halaman tersebut tidak terblokir saat menunggu respons dari server. Hal ini meningkatkan user experience karena halaman web tetap responsif. Misalnya, saat pengguna mengisi formulir dan mengklik tombol untuk mengirimkan, sementara data dikirim ke server, pengguna mungkin melihat animasi pemuatan tetapi tetap dapat berinteraksi dengan bagian lain dari situs.
+- Jika AJAX diatur untuk berfungsi secara synchronous, browser akan menunggu respons dari server sebelum melanjutkan. Selama waktu tunggu ini, halaman web mungkin menjadi tidak responsif, yang dapat mengganggu pengalaman pengguna. Penggunaan AJAX secara synchronous jarang ditemui karena dapat mengurangi keuntungan utama dari menggunakan AJAX, yaitu menjaga halaman web tetap responsif saat berkomunikasi dengan server.
+## Paradigma event-driven programming dalam penerapan JavaScript dan AJAX
+Event-driven programming adalah paradigma pemrograman di mana alur eksekusi program ditentukan oleh berbagai peristiwa, seperti input pengguna, sensor output, atau pesan dari program lain. Pada dasarnya, program menunggu dan merespons peristiwa tertentu untuk dieksekusi. Ini berbeda dengan pemrograman prosedural tradisional di mana alur eksekusi ditentukan oleh urutan perintah yang telah ditentukan sebelumnya.
+
+Dalam konteks aplikasi web yang menggunakan JavaScript dan AJAX, paradigma event-driven memungkinkan halaman web untuk merespons tindakan pengguna tanpa perlu memuat ulang halaman. Event bisa berupa klik tombol, penekanan tombol, gerakan mouse, dll. Ketika event tertentu terjadi, fungsi tertentu dapat dipanggil.
+
+Contoh penerapannya pada tugas 6:
+### 1. AJAX GET
+Saat page dimuat, sebuah event dapat memico fungsi AJAX GET untuk mengambil data item dari server dan menampilkannya dalam bentuk cards pada halaman.
+### 2. AJAX POST
+- Tombol yang membuka modal adalah pemicu event. Ketika pengguna menekan tombol tersebut, sebuah modal dengan form muncul.
+- Saat pengguna mengisi form dan mengklik tombol submit di dalam modal, event lain (misalnya, event click pada tombol submit) dipicu. Fungsi AJAX POST akan dijalankan untuk mengirim data yang dimasukkan oleh pengguna ke server tanpa harus memuat ulang seluruh halaman.
+- Setelah data berhasil disimpan ke database melalui /create-ajax/, respons dari server dapat memicu event lain di sisi klien untuk menutup modal, membersihkan form, dan memperbarui tampilan halaman dengan data baru tanpa perlu refresh total. Dapat dilakukan misalnya dengan menambahkan card baru ke daftar atau memperbarui bagian tertentu dari halaman.
+Melalui approach event-driven ini, user experience berlangsung responsif dan smooth, hal ini dikarenakan mereka tidak perlu menunggu page refresh setiap mereka melakukan tindakan. Sebaliknya, hanya beberapa bagian terkait dari halaman yang di-refresh berdasarkan event yang terjadi.
+## Penerapan Asynchronous Programming pada AJAX
+AJAX secara general memanfaatkan konsep asynchronous programming untuk memungkinkan pertukaran data dengan Web Server tanpa harus memuat ulang keseluruhan Web Page. Adapun beberapa penerapannya, antara lain:
+### 1. Non-blocking call AJAX
+Salah satu fitur utama asynchronous programming adalah kemampuan untuk melanjutkan eksekusi kode tanpa harus menunggu proses (misalnya request ke server) selesai. Dalam konteks AJAX, ketika sebuah request dikirim ke server, user masih dapat berinteraksi atau menggunakan web page. Web page tetap mempertahankan responsivenessnya.
+### 2. XMLHttpRequest
+Saat membuat instance dari XMLHttpRequest dan mengirim request, developer dapat menentukan bahwa request harus dilakukan secara asynchronous. Hal ini menunjukkan bahwa setelah request dikirim, kode JavaScript dapat terus berjalan tanpa menunggu respons.
+### 3. Event Handlers:
+Karena bawaan sifat asyncrhonous pada AJAX, developer menggunakan event handlers untuk menangani respons. Misalnya ketika respons dari server diterima, sebuah fungsi callback dari XMLHttpRequest dipanggil. Fungsi tersebut akan memproses repsons dan me-refresh halaman web sesuai kebutuhan.
+### 4. Dynamic Response
+Dengan AJAX, beberapa bagian pada Web Page dapat diupdate secara dinamis berdasarkan data yang diterima dari server. Semisal pada fitur komentar atau forum, kita dapat melakukan refresh tanpa harus memuat ulang seluruh halaman.
+
+Secara umum, penerapan asynchronous programming pada AJAX memungkinkan Web Page yang lebih responsif bagi penggunanya dan mengurangi beban pada server ataupun bandwith, karena data yang diterima ataupun dikirim hanya data yang dibutuhkan, bukan seluruh Web Page.
+## Perbandingan Fetch API dan Library jQuery
+### 1. Fetch API
+Fetch API merupakan API modern yang menawarkan JavaScript interface yang lebih smooth dan robust untuk mengakses maupun manipulasi HTTP pipeline, seperti request dan response. Penggunaan sintaks Fetch API juga tergolong simpel dan serupa dengan JavaScript. Dependencies pada Fetch API juga sudah menjadi fitur bawaan pada sebagian besar aplikasi browser sekarang, jadi tidak memerlukan external library. Dengan demikian, Fetch API di-support oleh browser versi terbaru dan tidak bisa dijalankan pada browser versi lama.
+
+### 2. jQuery AJAX
+jQuery merupakan approach AJAX yang cukup lama/tua untuk AJAX. Pada jQuery juga disediakan library JavaScript yang menyediakan beberapa method, seperti $.ajax(), $.get(), dan $.post() untuk mempermudah penggunaan AJAX. Penggunaan sintaks pada jQuery juga sedikit kompleks dan membutuhkan library jQuery untuk menjalankan fungsionalitasnya. Dengan demikian developer perlu menyediakan library jQuery ke projectnya, dan hal ini berimplikasi pada peningkatan ukuran file. Walaupun cukup reliable dan sudah digunakan cukup lama, jQuery tertinggal dari Fetch dalam hal penyediaan fitur-fitur yang lebih modern. Namun, jQuery masih memiliki aksesibilitas yang luas yang mana baik browser versi baru atau lama sekalipun masih meng-support jQuery.
+
+Baik Fetch API dan jQuery memiliki kelebihan dan kekurangannya masing-masing. Jika mempertimbangkan kompabilitas dan integrasi dengan Bootstrap, jQuery mungkin menjadi pilihan yang tepat. Namun, untuk proyek yang harus menyesuaikan dengan modernitas Web Development, Fetch API lebih cocok karena fiturnya yang lebih canggih dan tidak memerlukan konfigurasi external dependencies. Oleh karena itu, ketika berbicara Web Development yang menetapkan standar modern, Fetch API memberikan manfaat yang lebih banyak bagi developer dengan fleksibilitas dan kontrol yang lebih accessible, dan lebih simpel dalam hal konfigurasinya.
+
+## Implementasi checklist secara step-by-step
+
 # Tugas 5 PBP
 ## Manfaat Element Selector dan Kapan Waktu Penggunaanya
 ### 1. Universal Selector (*)
