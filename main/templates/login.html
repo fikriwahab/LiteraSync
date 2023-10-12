@@ -12,8 +12,9 @@
 
         <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
+            <input type="text" id="username" name="username" placeholder="Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+            <input type="password" id="password" name="password" placeholder="Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+            <button type="submit" id="loginButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
                 Login
             </button>
         </form>
@@ -30,6 +31,26 @@
             Don't have an account yet? <a href="{% url 'main:register' %}" class="text-blue-500 hover:underline">Register Now</a>
         </div>
     </div>
+
+    <script>
+        const usernameField = document.getElementById("username");
+        const passwordField = document.getElementById("password");
+        const loginButton = document.getElementById("loginButton");
+
+        function checkInput() {
+            if (usernameField.value.trim() === "" || passwordField.value.trim() === "") {
+                loginButton.disabled = true;
+            } else {
+                loginButton.disabled = false;
+            }
+        }
+
+        usernameField.addEventListener("keyup", checkInput);
+        passwordField.addEventListener("keyup", checkInput);
+
+        // Run on page load
+        checkInput();
+    </script>
 </div>
 
 {% endblock content %}

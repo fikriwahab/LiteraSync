@@ -19,6 +19,44 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Item
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+
+#Bonus tugas 6
+def delete_item_ajax(request, item_id):
+    if request.method == "DELETE":
+        try:
+            item = Item.objects.get(id=item_id)
+            item.delete()
+            return JsonResponse({'status': 'success'}, status=200)
+        except Item.DoesNotExist:
+            return JsonResponse({'status': 'failed', 'message': 'Item not found'}, status=404)
+    return JsonResponse({'status': 'failed', 'message': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+@login_required(login_url='/login')
+def add_item(request):
+    if request.method == 'POST':
+        # Menerima data dari POST request
+        item_name = request.POST.get('name')
+        item_amount = request.POST.get('amount')
+        item_description = request.POST.get('description')
+
+        # Membuat objek baru dan menyimpannya
+        new_item = Item(name=item_name, amount=item_amount, description=item_description, created_at=timezone.now(), user=request.user)
+        new_item.save()
+
+        return JsonResponse({'message': 'Item successfully added!'}, status=201)
+    else:
+        return JsonResponse({'error': 'Invalid method'}, status=400)
+
+@login_required(login_url='/login')
+def get_items_json(request):
+    items = Item.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", items), content_type="application/json")
+# Tugas 6
 
 @login_required(login_url='/login')
 def increment_item(request, item_id):
@@ -26,7 +64,7 @@ def increment_item(request, item_id):
         item = Item.objects.get(id=item_id, user=request.user)
         item.amount += 1
         item.save()
-        messages.success(request, 'Item incremented!')
+        messages.success(request, 'Item added!')
     except Item.DoesNotExist:
         messages.error(request, 'Item does not exist!')
         return Http404("Item does not exist.")
@@ -39,7 +77,7 @@ def decrement_item(request, item_id):
         if item.amount > 0:
             item.amount -= 1
             item.save()
-            messages.success(request, 'Item decremented!')
+            messages.success(request, 'Item reduced!')
         else:
             messages.warning(request, 'Item amount is already 0.')
     except Item.DoesNotExist:
@@ -75,6 +113,19 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        # Check if username and password fields are empty
+        if not username or not password:
+            messages.error(request, 'Please provide both username and password.')
+            return render(request, 'login.html')
+        
+        # Check if username exists
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.error(request, 'Username does not exist.')
+            return render(request, 'login.html')
+
+        # Then, try to authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -82,9 +133,10 @@ def login_user(request):
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
-            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            messages.error(request, 'Password is incorrect.')
     context = {}
     return render(request, 'login.html', context)
+
 
 def logout_user(request):
     logout(request)

@@ -44,6 +44,9 @@
     </div>
 
     <div class="mt-6 flex justify-between items-center">
+        <button onclick="openModal()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Tambah Item (Modal)
+        </button>        
         <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Tambah Buku Baru
         </a>
@@ -55,5 +58,139 @@
         </div>
     </div>
 </div>
+<!-- Modal untuk menambahkan item -->
+<div id="addItemModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+        
+        <!-- Modal box -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                    Tambahkan Item Baru
+                </h3>
+                <!-- Form -->
+                <form id="addItemForm" action="/create-ajax/" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <label>Nama Item:</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    <div>
+                        <label>Jumlah:</label>
+                        <input type="number" id="itemAmount" required>
+                    </div>
+                    <div>
+                        <label>Deskripsi:</label>
+                        <textarea name="description" id="itemDescription" required></textarea>
+                    </div>
+                    <button type="submit">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+    // Bonus tugas 6
+    function deleteItem(itemId) {
+        fetch(`/delete-item-ajax/${itemId}/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Item berhasil dihapus!');
+                fetchItems();  // Update tampilan item
+            } else {
+                alert('Gagal menghapus item: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting item:', error);
+        });
+    }
 
+    function getCookie(name) {
+        let value = "; " + document.cookie;
+        let parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+    function fetchItems() {
+        fetch("{% url 'main:get_items_json' %}")
+        .then(response => response.json())
+        .then(data => {
+            let itemsContainer = document.querySelector(".grid");
+            itemsContainer.innerHTML = ""; // Clear the container
+            data.forEach(item => {
+                let itemDiv = document.createElement("div");
+                itemDiv.className = "bg-white shadow-md rounded-md p-4";
+                itemDiv.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2">${item.name}</h3>
+                    <p><strong>Jumlah:</strong> ${item.amount}</p>
+                    <p class="mb-4"><strong>Deskripsi:</strong> ${item.description}</p>
+                    <div>
+                        <a href="{% url 'main:increment_item' item.id %}" class="text-blue-500 hover:text-blue-700 mr-2">Tambah</a>
+                        <a href="{% url 'main:decrement_item' item.id %}" class="text-yellow-500 hover:text-yellow-700 mr-2">Kurangi</a>
+                        <a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Hapus</a>
+                    </div>
+                `;
+                itemsContainer.appendChild(itemDiv);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching items:', error);
+        });
+    }
+    
+    // Call fetchItems on page load
+    window.onload = fetchItems;
+    function openModal() {
+        document.getElementById('addItemModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('addItemModal').classList.add('hidden');
+    }
+
+    // Handle the form submission
+    document.getElementById('addItemForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Ambil data dari form
+        const itemName = document.getElementById('itemName').value;
+        const itemAmount = document.getElementById('itemAmount').value;
+        const itemDescription = document.getElementById('itemDescription').value;
+
+    // Kirim data ini menggunakan AJAX POST ke server
+    fetch('/create-ajax/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            name: itemName,
+            amount: itemAmount,
+            description: itemDescription
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Item berhasil ditambahkan!');
+            closeModal();
+            fetchItems();
+        } else {
+            alert('Terjadi kesalahan saat menambahkan item. Silakan coba lagi.');
+        }
+    });
+
+    // Setelah selesai, tutup modal
+    closeModal();
+});
+
+    </script>    
 {% endblock content %}
