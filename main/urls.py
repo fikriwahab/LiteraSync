@@ -29,5 +29,4 @@ urlpatterns = [
     path('add-item/', add_item, name='add_item'),
     path('create-ajax/', add_item, name='create_ajax_item'),
     path('delete-item-ajax/<int:item_id>/', delete_item_ajax, name='delete_item_ajax'),
-
 ]
