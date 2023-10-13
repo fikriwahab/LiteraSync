@@ -74,16 +74,16 @@
                     {% csrf_token %}
                     <div>
                         <label>Nama Item:</label>
-                        <input type="text" id="itemName" required>
+                        <input type="text" id="itemName" name="name" required>
                     </div>
                     <div>
                         <label>Jumlah:</label>
-                        <input type="number" id="itemAmount" required>
+                        <input type="number" id="itemAmount" name="amount" required>
                     </div>
                     <div>
                         <label>Deskripsi:</label>
                         <textarea name="description" id="itemDescription" required></textarea>
-                    </div>
+                    </div>                    
                     <button type="submit">Simpan</button>
                 </form>
             </div>

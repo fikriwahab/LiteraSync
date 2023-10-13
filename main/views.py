@@ -40,6 +40,7 @@ def delete_item_ajax(request, item_id):
 def add_item(request):
     if request.method == 'POST':
         # Menerima data dari POST request
+        print(request.POST)
         item_name = request.POST.get('name')
         item_amount = request.POST.get('amount')
         item_description = request.POST.get('description')
